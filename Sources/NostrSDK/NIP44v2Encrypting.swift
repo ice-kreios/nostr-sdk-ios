@@ -85,6 +85,16 @@ public extension NIP44v2Encrypting {
 
         return try decrypt(payload: payload, conversationKey: conversationKey)
     }
+    
+    func decrypt(payload: String, privateKeyA: PrivateKey, publicKeyB: PublicKey, customConversationKey: ContiguousBytes?) throws -> String {
+        if let customConversationKey = customConversationKey {
+            return try decrypt(payload: payload, conversationKey: customConversationKey)
+        }
+        
+        let conversationKey = try conversationKey(privateKeyA: privateKeyA, publicKeyB: publicKeyB)
+
+        return try decrypt(payload: payload, conversationKey: conversationKey)
+    }
 }
 
 extension NIP44v2Encrypting {
